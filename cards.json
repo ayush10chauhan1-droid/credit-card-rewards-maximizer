@@ -1,0 +1,20 @@
+{
+  "Card A": {
+    "dining": 0.05,
+    "grocery": 0.03,
+    "travel": 0.02,
+    "other": 0.01
+  },
+  "Card B": {
+    "dining": 0.02,
+    "grocery": 0.05,
+    "travel": 0.03,
+    "other": 0.01
+  },
+  "Card C": {
+    "dining": 0.03,
+    "grocery": 0.02,
+    "travel": 0.05,
+    "other": 0.01
+  }
+}
