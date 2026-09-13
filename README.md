@@ -127,6 +127,7 @@ Get a free Gemini API key from [Google AI Studio](https://aistudio.google.com/ap
 
 #### Terminal 1 — Start the FastAPI Backend:
 ```bash
+cd backend
 python3 -m pip install -r requirements.txt
 python3 -m uvicorn server:app --reload --port 8000
 ```
@@ -147,6 +148,7 @@ npm run dev
 Run the full pytest suite to verify calculation, capping, and wallet optimization logic:
 
 ```bash
+cd backend
 python3 -m pytest tests/ -v
 ```
 

@@ -3,7 +3,7 @@ version: '3.8'
 services:
   swipesmart-app:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile
     container_name: swipesmart-ai-enterprise
     ports:
