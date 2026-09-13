@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { CARDS_DATABASE, POPULAR_CARDS } from '../lib/data';
 import { CreditCardSkin } from './CreditCardSkin';
-import { Check, X, Plane, DollarSign, Shield, Zap } from 'lucide-react';
 
 export const CardComparisonMatrix: React.FC = () => {
   const [selectedCards, setSelectedCards] = useState<string[]>([

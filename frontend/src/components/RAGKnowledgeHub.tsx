@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, BookOpen, AlertTriangle, ShieldCheck, HelpCircle } from 'lucide-react';
+import { Search, BookOpen, AlertTriangle } from 'lucide-react';
 
 interface RuleDoc {
   card: string;
@@ -106,8 +106,9 @@ export const RAGKnowledgeHub: React.FC = () => {
 
       {/* Results Grid */}
       <div className="space-y-3">
-        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
-          Retrieved Documents ({docs.length})
+        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-2">
+          <span>Retrieved Documents ({docs.length})</span>
+          {loading && <span className="text-indigo-400 normal-case animate-pulse font-normal">Searching...</span>}
         </span>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

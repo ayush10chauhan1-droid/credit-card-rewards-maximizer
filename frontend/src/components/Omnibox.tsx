@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, Sparkles, X, ArrowRight, Tag } from 'lucide-react';
+import { Search, Sparkles, X, ArrowRight } from 'lucide-react';
 import { VENDORS_METADATA, CATEGORIES, CATEGORY_ICONS } from '../lib/data';
 
 interface OmniboxProps {

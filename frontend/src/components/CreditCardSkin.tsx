@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Wifi, Sparkles, Info, Check, ShieldCheck } from 'lucide-react';
+import { Wifi, Info, Check, ShieldCheck } from 'lucide-react';
 import { CARDS_DATABASE, CreditCardData } from '../lib/data';
 
 interface CreditCardSkinProps {

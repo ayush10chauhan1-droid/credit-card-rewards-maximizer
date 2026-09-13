@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CreditCard,
@@ -6,20 +6,11 @@ import {
   Layers,
   Sparkles,
   GitCompare,
-  BookOpen,
-  Sliders,
-  DollarSign,
-  TrendingUp,
-  ShieldCheck,
-  Search,
-  ExternalLink
+  BookOpen
 } from 'lucide-react';
 
 import {
-  CATEGORIES,
-  POPULAR_CARDS,
-  CARDS_DATABASE,
-  VENDORS_METADATA
+  POPULAR_CARDS
 } from './lib/data';
 
 import {
@@ -27,8 +18,6 @@ import {
   findOptimalWalletStrategyClient,
   analyzeSpendGapsClient,
   recommendNextCardsClient,
-  fetchCompareAPI,
-  fetchRouteWalletAPI,
   SinglePurchaseResponse,
   WalletStrategyResponse,
   SpendGap,

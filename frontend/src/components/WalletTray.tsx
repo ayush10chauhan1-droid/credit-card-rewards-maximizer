@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Check, Wallet, ChevronRight, X } from 'lucide-react';
+import { Plus, Check, Wallet, X } from 'lucide-react';
 import { CARDS_DATABASE, POPULAR_CARDS } from '../lib/data';
 import { CreditCardSkin } from './CreditCardSkin';
 

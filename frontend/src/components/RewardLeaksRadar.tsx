@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { AlertOctagon, TrendingUp, Sparkles, Plus, ExternalLink, ShieldCheck, Filter } from 'lucide-react';
+import { AlertOctagon, Sparkles, Plus, ExternalLink, ShieldCheck } from 'lucide-react';
 import { SpendGap, CardRecommendation } from '../lib/engine';
-import { CreditCardSkin } from './CreditCardSkin';
 
 interface RewardLeaksRadarProps {
   gaps: SpendGap[];
@@ -23,10 +22,7 @@ export const RewardLeaksRadar: React.FC<RewardLeaksRadarProps> = ({
   maxFeeFilter,
   onMaxFeeChange
 }) => {
-  const [simulatedCard, setSimulatedCard] = useState<string | null>(null);
-
   const handleSimulate = (cardName: string) => {
-    setSimulatedCard(cardName);
     onAddCardToWallet(cardName);
   };
 

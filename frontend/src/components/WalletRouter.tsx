@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sliders, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle, Sparkles, PieChart, Layers } from 'lucide-react';
+import { Sliders, ArrowRight, ShieldCheck, CheckCircle2, Layers } from 'lucide-react';
 import { CATEGORIES, CATEGORY_ICONS } from '../lib/data';
 import { WalletStrategyResponse } from '../lib/engine';
 
@@ -9,7 +9,7 @@ interface WalletRouterProps {
   monthlySpend: Record<string, number>;
   onUpdateCategorySpend: (category: string, value: number) => void;
   onApplyPreset: (presetName: string) => void;
-  walletCards: string[];
+  walletCards?: string[];
 }
 
 export const WalletRouter: React.FC<WalletRouterProps> = ({
@@ -17,7 +17,7 @@ export const WalletRouter: React.FC<WalletRouterProps> = ({
   monthlySpend,
   onUpdateCategorySpend,
   onApplyPreset,
-  walletCards
+  walletCards: _walletCards
 }) => {
   const totalMonthlySpend = Object.values(monthlySpend).reduce((a, b) => a + b, 0);
   const totalAnnualSpend = totalMonthlySpend * 12;

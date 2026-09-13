@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Crown, Sparkles, TrendingUp, AlertTriangle, ArrowRight, ShieldAlert, Award } from 'lucide-react';
+import { Crown, Sparkles, AlertTriangle, Award } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { CreditCardSkin } from './CreditCardSkin';
 import { SinglePurchaseResponse } from '../lib/engine';
@@ -19,7 +19,19 @@ export const WinningSwipeHero: React.FC<WinningSwipeHeroProps> = ({
   category,
   vendor
 }) => {
-  const { results, best_card, best_reward, runner_up, runner_up_card, savings_delta, tips, ai_rationale } = data;
+  const { results, best_card, best_reward, runner_up_card, savings_delta, ai_rationale } = data;
+
+  // Trigger subtle confetti on render if reward is high (> ₹250)
+  useEffect(() => {
+    if (best_card && results.length > 0 && best_reward >= 250) {
+      confetti({
+        particleCount: 35,
+        spread: 60,
+        origin: { y: 0.7 },
+        colors: ['#10B981', '#6366F1', '#F59E0B']
+      });
+    }
+  }, [best_card, results.length, best_reward, amount, vendor]);
 
   if (!best_card || results.length === 0) {
     return (
@@ -32,18 +44,6 @@ export const WinningSwipeHero: React.FC<WinningSwipeHeroProps> = ({
   const bestCardInfo = CARDS_DATABASE[best_card];
   const bestResult = results[0];
   const roiPct = amount > 0 ? ((best_reward / amount) * 100).toFixed(2) : "0.00";
-
-  // Trigger subtle confetti on render if reward is high (> ₹250)
-  React.useEffect(() => {
-    if (best_reward >= 250) {
-      confetti({
-        particleCount: 35,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ['#10B981', '#6366F1', '#F59E0B']
-      });
-    }
-  }, [best_card, amount, vendor]);
 
   // Breakdown calculation:
   // Base points rate (usually 1% to 3.3%) vs accelerated partner boost
