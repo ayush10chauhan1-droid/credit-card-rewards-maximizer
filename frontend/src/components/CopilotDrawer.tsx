@@ -157,24 +157,28 @@ export const CopilotDrawer: React.FC = () => {
             </div>
 
             {/* Input Footer */}
-            <div className="p-3 border-t border-white/10 bg-obsidian-850 flex items-center space-x-2">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSend();
+              }}
+              className="p-3 border-t border-white/10 bg-obsidian-850 flex items-center space-x-2"
+            >
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 placeholder="Ask SwipeSmart Copilot..."
                 className="flex-1 bg-obsidian-800 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
               />
               <button
-                type="button"
-                onClick={() => handleSend()}
+                type="submit"
                 disabled={loading || !input.trim()}
-                className="p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white transition shadow-glow-indigo"
+                className="p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white transition shadow-glow-indigo cursor-pointer"
               >
                 <Send className="w-4 h-4" />
               </button>
-            </div>
+            </form>
           </motion.div>
         )}
       </AnimatePresence>

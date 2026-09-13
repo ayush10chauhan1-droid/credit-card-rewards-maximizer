@@ -1,8 +1,28 @@
-venv/
-__pycache__/
+# Environments & Secrets
 .env
-*.pyc
-.DS_Store
-**/.DS_Store
+.env.local
+.env.*.local
+venv/
+env/
+ENV/
+
+# Python Bytecode & Caches
+__pycache__/
+*.py[cod]
+*$py.class
 .pytest_cache/
 
+# OS Specific
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# Frontend Dependencies & Builds
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+*.log
+
+# IDE & Editor files
+.vscode/
+.idea/

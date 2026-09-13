@@ -11,18 +11,33 @@ from engine.rag_service import build_rag_context
 
 load_dotenv()
 
-# Initialize Gemini LLM with safe fallback
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+# Cache initialized LLM
+_llm_instance = None
+_cached_key = None
 
-try:
-    llm = ChatGoogleGenerativeAI(
-        model="gemini-2.5-flash",
-        temperature=0.1,
-        google_api_key=GOOGLE_API_KEY,
-        max_retries=2
-    )
-except Exception:
-    llm = None
+def get_llm():
+    """Dynamically get or initialize the Gemini LLM instance."""
+    global _llm_instance, _cached_key
+    load_dotenv(override=True)
+    api_key = os.getenv("GOOGLE_API_KEY", "").strip()
+
+    if not api_key or api_key == "your_gemini_api_key_here":
+        return None
+
+    if _llm_instance is not None and _cached_key == api_key:
+        return _llm_instance
+
+    try:
+        _llm_instance = ChatGoogleGenerativeAI(
+            model="gemini-2.5-flash",
+            temperature=0.1,
+            google_api_key=api_key,
+            max_retries=2
+        )
+        _cached_key = api_key
+        return _llm_instance
+    except Exception:
+        return None
 
 
 def explain_single_purchase(
@@ -33,6 +48,7 @@ def explain_single_purchase(
     vendor: Optional[str] = None
 ) -> str:
     """Generate concise, actionable AI rationale for single purchase recommendation."""
+    llm = get_llm()
     if not llm:
         return f"🏆 **{best_card}** is mathematically optimal for ₹{amount:,.0f} in {category} based on your selected cards."
 
@@ -63,6 +79,7 @@ WINNER: {best_card}
 
 def explain_wallet_strategy(strategy_summary: str) -> str:
     """Generate executive summary of multi-card monthly routing strategy."""
+    llm = get_llm()
     if not llm:
         return "Your wallet cards have been routed category-by-category to maximize net annual return."
 
@@ -96,6 +113,7 @@ def explain_matchmaker_recommendation(
     user_spends_summary: str
 ) -> str:
     """Generate clear rationale for why a user should apply for a new card."""
+    llm = get_llm()
     if not llm:
         return f"Adding **{recommended_card}** generates an estimated +₹{incremental_profit:,.2f}/year in net profit after accounting for card fees."
 
@@ -123,14 +141,49 @@ STRICT GUIDELINES:
         return f"💡 Adding **{recommended_card}** plugs key category leaks to produce +₹{incremental_profit:,.2f}/yr net gain."
 
 
+def fallback_copilot_response(user_message: str) -> str:
+    """Provide structured, helpful answer from the local RAG knowledge base when Gemini API key is not set."""
+    from engine.rag_service import search_knowledge_base
+    cleaned = user_message.strip().lower()
+
+    if cleaned in ["hi", "hii", "hello", "hey", "hola", "namaste", "good morning", "good evening"]:
+        return (
+            "👋 **Hello! I'm your SwipeSmart Copilot.**\n\n"
+            "I'm currently powered by the verified **Card Rules & RAG Knowledge Hub** across 26 Indian credit cards.\n\n"
+            "Feel free to ask me questions like:\n"
+            "• *\"How does SBI Cashback capping work?\"*\n"
+            "• *\"Which card offers complimentary lounge access?\"*\n"
+            "• *\"What is the forex fee on Scapia?\"*\n"
+            "• *\"Compare Infinia vs Axis Atlas\"*\n\n"
+            "*(💡 To enable Google Gemini 2.5 generative reasoning, configure your `GOOGLE_API_KEY` in the `.env` file.)*"
+        )
+
+    docs = search_knowledge_base(user_message, top_k=2)
+    scored_docs = [d for d in docs if d.get("score", 0) > 0]
+
+    if scored_docs:
+        reply_parts = ["📚 **Verified Card Knowledge Hub Answer:**\n"]
+        for d in scored_docs:
+            reply_parts.append(f"💳 **{d['card']}** — *{d['topic']}*:\n{d['text']}\n")
+        reply_parts.append("\n*(💡 To enable Gemini 2.5 Flash multi-turn AI reasoning, set `GOOGLE_API_KEY` in your `.env` file.)*")
+        return "\n".join(reply_parts)
+
+    return (
+        f"🔍 I searched the knowledge base for **\"{user_message}\"**.\n\n"
+        "Try asking about specific cards (*Infinia, SBI Cashback, Axis Atlas, Scapia*) or topics (*lounges, forex markup, monthly capping*).\n\n"
+        "*(💡 To unlock full Gemini 2.5 generative AI reasoning, configure your `GOOGLE_API_KEY` in `.env`.)*"
+    )
+
+
 def chat_with_copilot(
     user_message: str,
     card_database_summary: str,
     chat_history: str = ""
 ) -> str:
-    """Intelligent credit card copilot chatbot with RAG context."""
+    """Intelligent credit card copilot chatbot with RAG context and Gemini 2.5."""
+    llm = get_llm()
     if not llm:
-        return "SwipeSmart Copilot is currently in offline mode. Please verify your Google API key."
+        return fallback_copilot_response(user_message)
 
     # Retrieve relevant RAG terms and rules
     rag_context = build_rag_context(user_message)
@@ -163,3 +216,4 @@ YOUR ANSWER:
         return response.content.strip()
     except Exception as e:
         return f"⚠️ I encountered an error answering your inquiry: {str(e)}"
+
