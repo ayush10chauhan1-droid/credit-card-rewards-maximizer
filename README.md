@@ -5,7 +5,8 @@
 [![TailwindCSS](https://img.shields.io/badge/Styling-Tailwind%20CSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Gemini 2.5](https://img.shields.io/badge/AI-Google%20Gemini%202.5-4285F4.svg)](https://aistudio.google.com/)
-[![Tests](https://img.shields.io/badge/tests-pytest%20passing-brightgreen.svg)]()
+[![CI](https://github.com/ayush10chauhan1-droid/credit-card-rewards-maximizer/actions/workflows/ci.yml/badge.svg)](https://github.com/ayush10chauhan1-droid/credit-card-rewards-maximizer/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/docker-ready-2496ED.svg)](https://www.docker.com/)
 
 **SwipeSmart AI (Enterprise Edition)** is an intelligent credit card reward optimizer, multi-card wallet router, card matchmaker, and AI financial advisor built specifically for the Indian credit card ecosystem.
