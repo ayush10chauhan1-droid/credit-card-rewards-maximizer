@@ -1,0 +1,22 @@
+{
+  "name": "swipesmart-ai-enterprise",
+  "version": "3.0.0",
+  "description": "SwipeSmart AI Enterprise — Credit Card Reward Maximizer Monorepo",
+  "private": true,
+  "scripts": {
+    "dev": "node -e \"const { spawn } = require('child_process'); const cmd = process.platform === 'win32' ? 'python' : 'python3'; spawn(cmd, ['run.py'], { stdio: 'inherit' });\"",
+    "start": "node -e \"const { spawn } = require('child_process'); const cmd = process.platform === 'win32' ? 'python' : 'python3'; spawn(cmd, ['run.py'], { stdio: 'inherit' });\"",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build",
+    "backend:dev": "cd backend && python3 -m uvicorn server:app --reload --port 8000"
+  },
+  "keywords": [
+    "credit-cards",
+    "rewards",
+    "fastapi",
+    "react",
+    "vite"
+  ],
+  "author": "SwipeSmart AI Team",
+  "license": "MIT"
+}

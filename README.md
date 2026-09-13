@@ -104,28 +104,46 @@
 
 ## 🚀 Quickstart Guide
 
-### 1. Clone the Repository
+### ⚡ Option A: One-Click Quickstart (Recommended for ZIP Downloads & Clones)
 
+If you downloaded the repository as a **ZIP** from GitHub (or cloned it), you can start the entire application with a single click or command. The launcher automatically creates `.env`, installs all Python and Node dependencies, starts both backend and frontend servers, and opens your browser.
+
+#### 🪟 Windows:
+Just **double-click** `start.bat` in the extracted folder, or run in Command Prompt / PowerShell:
+```cmd
+start.bat
+```
+*(or `python run.py`)*
+
+#### 🍎 macOS & 🐧 Linux:
+Run in your terminal:
 ```bash
-git clone https://github.com/ayush10chauhan1-droid/credit-card-rewards-maximizer.git
-cd credit-card-rewards-maximizer
+./start.sh
+```
+*(or `python3 run.py`)*
+
+#### 📦 Using NPM:
+If you prefer npm, simply run from the root directory:
+```bash
+npm run dev
+# or: npm start
 ```
 
-### 2. Configure Environment Variables
-
-Create a `.env` file in the project root:
-
-```env
-GOOGLE_API_KEY=your_gemini_api_key_here
-```
-
-Get a free Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+*The launcher will automatically open `http://localhost:5173` in your default browser!*
 
 ---
 
-### 3. Run the Modern React + FastAPI Stack
+### 🛠️ Option B: Advanced / Manual 2-Terminal Setup
 
-#### Terminal 1 — Start the FastAPI Backend:
+If you prefer running services manually in separate terminals:
+
+#### 1. Configure Environment Variables (Optional for Gemini AI Copilot)
+```bash
+cp .env.example .env
+```
+Add your free Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+
+#### 2. Terminal 1 — Start the FastAPI Backend:
 ```bash
 cd backend
 python3 -m pip install -r requirements.txt
@@ -133,13 +151,23 @@ python3 -m uvicorn server:app --reload --port 8000
 ```
 *Backend API will run at `http://localhost:8000` (Interactive docs at `http://localhost:8000/docs`).*
 
-#### Terminal 2 — Start the React Frontend:
+#### 3. Terminal 2 — Start the React Frontend:
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
 *Frontend will open at `http://localhost:5173`.*
+
+---
+
+### 🌐 Option C: Unified Single-Port Mode (Production / Standalone)
+You can also run both the API and the pre-built React frontend from a single port (`http://localhost:8000`):
+```bash
+cd frontend && npm run build && cd ..
+cd backend && python3 -m uvicorn server:app --port 8000
+```
+Open `http://localhost:8000` to access the full application.
 
 ---
 

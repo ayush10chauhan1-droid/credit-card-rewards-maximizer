@@ -210,3 +210,26 @@ def api_copilot(req: CopilotChatRequest):
     card_db_summary = "\n".join([f"{k}: {v['type']}, Fee ₹{v['annual_fee']}, Lounges: {v.get('domestic_lounges','None')}" for k, v in CARDS_DATABASE.items()])
     reply = chat_with_copilot(req.message, card_db_summary, history_context)
     return {"reply": reply}
+
+# ---------------------------------------------------------------------
+# Serve Frontend Static Assets (Unified Single-Port / Standalone Mode)
+# ---------------------------------------------------------------------
+frontend_dist = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend", "dist"))
+if os.path.exists(frontend_dist) and os.path.isdir(frontend_dist):
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.responses import FileResponse
+
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_spa_app(full_path: str):
+        # Prevent intercepting API routes that returned 404
+        if full_path.startswith("api/"):
+            return {"error": "API route not found"}
+        file_path = os.path.join(frontend_dist, full_path)
+        if full_path and os.path.exists(file_path) and os.path.isfile(file_path):
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+
