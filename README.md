@@ -142,16 +142,6 @@ npm run dev
 
 ---
 
-### 4. (Optional) Run the Streamlit Version
-
-If you prefer the standalone Streamlit interface:
-```bash
-streamlit run app.py
-```
-*Streamlit will run at `http://localhost:8501`.*
-
----
-
 ## 🧪 Automated Testing
 
 Run the full pytest suite to verify calculation, capping, and wallet optimization logic:
